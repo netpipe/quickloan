@@ -1,5 +1,5 @@
 <?php
-// quickloan.php
+// index.php
 // Collateralized borrower-first quickloan prototype with credit rating
 // WARNING: Prototype. NOT for production. Replace wallet/gateway stubs and secure private keys.
 
@@ -361,10 +361,10 @@ if ($action === 'register') {
 if ($action === 'login') {
     if (!check_csrf($_POST['csrf'] ?? '')) { $flash = 'CSRF token invalid'; goto render; }
     $u = $_POST['username'] ?? ''; $p = $_POST['password'] ?? ''; $remember = !empty($_POST['remember']);
-    if (login_user($db,$u,$p,$remember)) { header('Location: quickloan.php'); exit; } else $flash = 'Login failed';
+    if (login_user($db,$u,$p,$remember)) { header('Location: index.php'); exit; } else $flash = 'Login failed';
 }
 if ($action === 'logout') {
-    session_destroy(); setcookie('ql_token','', time()-3600, '/'); header('Location: quickloan.php'); exit;
+    session_destroy(); setcookie('ql_token','', time()-3600, '/'); header('Location: index.php'); exit;
 }
 if ($action === 'create_job') {
     if (!check_csrf($_POST['csrf'] ?? '')) { $flash = 'CSRF token invalid'; goto render; }
@@ -450,7 +450,7 @@ if ($page === 'register') {
     echo '<form method="post"><input type="hidden" name="action" value="register"><input type="hidden" name="csrf" value="'.h(csrf_token()).'">';
     echo 'Username: <input name="username"><br>Email: <input name="email"><br>Password: <input type="password" name="password"><br>';
     echo '<button>Register</button></form>';
-    echo '<p><a href="quickloan.php">Home</a></p>';
+    echo '<p><a href="index.php">Home</a></p>';
     foot(); exit;
 }
 
@@ -460,7 +460,7 @@ if ($page === 'login') {
     echo '<form method="post"><input type="hidden" name="action" value="login"><input type="hidden" name="csrf" value="'.h(csrf_token()).'">';
     echo 'Username: <input name="username"><br>Password: <input type="password" name="password"><br>Remember: <input type="checkbox" name="remember"><br>';
     echo '<button>Login</button></form>';
-    echo '<p><a href="quickloan.php?page=register">Register</a></p>';
+    echo '<p><a href="index.php?page=register">Register</a></p>';
     foot(); exit;
 }
 
@@ -511,14 +511,14 @@ if ($page === 'loan_details') {
         echo '<input type="hidden" name="loan_id" value="'.h($loan_id).'">TXID: <input name="txid"><button>Mark funded</button></form>';
     }
 
-    echo '<p><a href="quickloan.php">Back</a></p>';
+    echo '<p><a href="index.php">Back</a></p>';
     foot(); exit;
 }
 
 top('Dashboard');
 echo !empty($flash) ? "<p style='color:green'>".h($flash)."</p>" : '';
 if (!$user) {
-    echo '<p><a href="quickloan.php?page=login">Login</a> or <a href="quickloan.php?page=register">Register</a></p>';
+    echo '<p><a href="index.php?page=login">Login</a> or <a href="index.php?page=register">Register</a></p>';
     foot(); exit;
 }
 
@@ -548,7 +548,7 @@ else {
         echo '<td>'.h($l['borrower_name']).'</td>';
         echo '<td>'.h($l['amount']).'</td>';
         echo '<td>'.h($expected).'</td>';
-        echo '<td><a href="quickloan.php?page=loan_details&loan_id='.urlencode($l['id']).'">View & Invest</a></td>';
+        echo '<td><a href="index.php?page=loan_details&loan_id='.urlencode($l['id']).'">View & Invest</a></td>';
         echo '</tr>';
     }
     echo '</table>';
@@ -569,7 +569,7 @@ else {
         echo '<td>'.h($l['amount']).'</td>';
         echo '<td>'.h($l['status']).'</td>';
         echo '<td>'.h($l['due_at']).'</td>';
-        echo '<td><a href="quickloan.php?page=loan_details&loan_id='.urlencode($l['id']).'">Details</a></td>';
+        echo '<td><a href="index.php?page=loan_details&loan_id='.urlencode($l['id']).'">Details</a></td>';
         echo '</tr>';
     }
     echo '</table>';
