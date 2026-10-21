@@ -3,6 +3,14 @@
 // Collateralized borrower-first quickloan prototype with credit rating
 // WARNING: Prototype. NOT for production. Replace wallet/gateway stubs and secure private keys.
 
+//It’s not a Ponzi, because it doesn’t depend on new investors to pay old ones. It’s a collateralized peer-to-peer loan system.
+
+//Borrower (the “job doer”) puts up their own full amount first (say 200 DOGE).
+//A “doubler lender” then steps in and lends them half that amount back (100 DOGE).
+//The borrower now has initial deposit (200) + half-back loan (100) = 300 DOGE total liquidity to execute the job.
+//When the borrower finishes and pays back, they repay the full “job cost”, and the lender is repaid their half + reward.
+//In some cases the lender might just get their half back directly if the borrower doesn’t complete the repayment on time.
+
 // ---------------- CONFIG ----------------
 $dbFile = __DIR__ . '/quickloan.db';
 $siteName = "QuickLoan Collateral Prototype";
